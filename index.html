@@ -7,17 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game">
-        <h1>Hangman</h1>
-        <p id="word">_ _ _ _ _</p>
-        <input type="text" id="guess" maxlength="1" placeholder="Enter a letter">
-        <button id="submit">Guess</button>
-        <p id="wrong-guesses">Wrong guesses: </p>
-        <p id="lives">Lives: 6</p>
-        <button id="reset">Reset</button>
+    <h1>Hangman Game</h1>
+    <div id="game-container">
+        <div id="gallows-container">
+            <img id="gallows" src="images/gallows.png" alt="Gallows" />
+            <div id="stick-figure">
+                <img id="head" class="body-part" src="" alt="Head">
+                <img id="body" class="body-part" src="" alt="Body">
+                <img id="left-arm" class="body-part" src="" alt="Left Arm">
+                <img id="right-arm" class="body-part" src="" alt="Right Arm">
+                <img id="left-leg" class="body-part" src="" alt="Left Leg">
+                <img id="right-leg" class="body-part" src="" alt="Right Leg">
+            </div>
+        </div>
+        <div id="word-container">
+            <!-- Word display (hidden letters, underscores, etc.) -->
+        </div>
+        <div id="guesses">
+            <!-- Letter buttons and wrong guesses -->
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
-
-<!-- Testing GitHub Pages -->
