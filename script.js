@@ -1,56 +1,41 @@
-const wordToGuess = "JAVASCRIPT";
-const maxLives = 6;
-let lives = maxLives;
-let guessedWord = "_".repeat(wordToGuess.length).split("");
-let wrongGuesses = [];
+let wrongGuesses = 0;
+const maxWrongGuesses = 6; // Total parts (head, body, arms, legs)
 
-const wordElement = document.getElementById("word");
-const guessInput = document.getElementById("guess");
-const wrongGuessesElement = document.getElementById("wrong-guesses");
-const livesElement = document.getElementById("lives");
-const resetButton = document.getElementById("reset");
+const bodyParts = [
+    document.getElementById('head'),
+    document.getElementById('body'),
+    document.getElementById('left-arm'),
+    document.getElementById('right-arm'),
+    document.getElementById('left-leg'),
+    document.getElementById('right-leg')
+];
 
-function updateDisplay() {
-    wordElement.textContent = guessedWord.join(" ");
-    wrongGuessesElement.textContent = `Wrong guesses: ${wrongGuesses.join(", ")}`;
-    livesElement.textContent = `Lives: ${lives}`;
+function makeWrongGuess() {
+    if (wrongGuesses < maxWrongGuesses) {
+        bodyParts[wrongGuesses].src = `images/${bodyPartImages[wrongGuesses]}`; // Change image path for each body part
+        bodyParts[wrongGuesses].style.display = 'block';
+        wrongGuesses++;
+    }
 }
 
-document.getElementById("submit").addEventListener("click", () => {
-    const guess = guessInput.value.toUpperCase();
-    guessInput.value = "";
+// Sample bodyPartImages array that corresponds to the body part images
+const bodyPartImages = [
+    'head.png', 
+    'body.png', 
+    'left-arm.png', 
+    'right-arm.png', 
+    'left-leg.png', 
+    'right-leg.png'
+];
 
-    if (!guess || guess.length !== 1 || guessedWord.includes(guess) || wrongGuesses.includes(guess)) {
-        alert("Invalid or repeated guess!");
-        return;
+// Example function to simulate wrong guesses
+function handleGuess(letter) {
+    if (!correctGuess(letter)) { // If the guess is wrong
+        makeWrongGuess();
     }
+}
 
-    if (wordToGuess.includes(guess)) {
-        for (let i = 0; i < wordToGuess.length; i++) {
-            if (wordToGuess[i] === guess) {
-                guessedWord[i] = guess;
-            }
-        }
-    } else {
-        wrongGuesses.push(guess);
-        lives--;
-    }
-
-    updateDisplay();
-
-    if (guessedWord.join("") === wordToGuess) {
-        alert("You won!");
-    } else if (lives === 0) {
-        alert(`Game over! The word was ${wordToGuess}`);
-    }
-});
-
-resetButton.addEventListener("click", () => {
-    lives = maxLives;
-    guessedWord = "_".repeat(wordToGuess.length).split("");
-    wrongGuesses = [];
-    updateDisplay();
-});
-
-// Initialize game display
-updateDisplay();
+function correctGuess(letter) {
+    // Check if the guess is correct and return true or false
+    return false;  // For testing, you can set it to always return false (simulate wrong guesses)
+}
