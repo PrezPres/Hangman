@@ -1,28 +1,27 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f9;
-    color: #333;
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#game {
-    margin: 50px auto;
-    max-width: 400px;
-    padding: 20px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    background: #fff;
+#gallows-container {
+    position: relative;
 }
 
-button {
-    padding: 10px 15px;
-    margin: 10px;
-    cursor: pointer;
+#stick-figure {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-input {
-    padding: 10px;
-    margin: 10px;
-    width: 50px;
-    text-align: center;
+.body-part {
+    display: none;
+    position: absolute;
 }
+
+#head { top: 40px; left: 100px; }
+#body { top: 100px; left: 100px; }
+#left-arm { top: 100px; left: 70px; }
+#right-arm { top: 100px; left: 130px; }
+#left-leg { top: 160px; left: 80px; }
+#right-leg { top: 160px; left: 120px; }
