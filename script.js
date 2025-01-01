@@ -1,6 +1,5 @@
 // Game variables
-let words = ["hangman", "javascript", "programming", "web", "game"];
-let word = words[Math.floor(Math.random() * words.length)];
+let word = '';  // The word to guess, will be fetched from the API
 let guessedLetters = [];  // Track all guessed letters (correct and incorrect)
 let incorrectGuesses = []; // Track incorrect guesses only
 let correctGuesses = [];   // Track correct guesses only
@@ -13,6 +12,24 @@ const difficultyLevels = {
   normal: 6,  // Normal difficulty: 6 guesses
   hard: 3     // Hard difficulty: 3 guesses
 };
+
+// Fetch a random word from an API
+function fetchRandomWord() {
+  fetch('https://random-word-api.herokuapp.com/word?number=1')  // Random word API
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.length > 0) {
+        word = data[0].toLowerCase();  // Set the word to the random word from API
+        startGame();
+      } else {
+        alert('Failed to fetch a random word. Please try again.');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching random word:', error);
+      alert('There was an error fetching a random word.');
+    });
+}
 
 // Set difficulty based on user selection
 function setDifficulty(difficulty) {
@@ -108,14 +125,13 @@ function displayMissedLetters() {
 document.getElementById("reset-button").addEventListener("click", resetGame);
 
 function resetGame() {
-  word = words[Math.floor(Math.random() * words.length)];
+  fetchRandomWord();  // Fetch a new random word from the API
   guessedLetters = [];
   incorrectGuesses = [];
   correctGuesses = [];
   remainingGuesses = difficultyLevels.normal; // Reset to normal difficulty
   isGameOver = false;
 
-  updateWordDisplay();
   document.getElementById("gallows-image").src = "images/Gallows0.png";
   updateRemainingGuesses();
   document.getElementById("guessed-letters").textContent = "Guessed Letters (Incorrect): ";
@@ -144,4 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   selectDifficulty("normal");
+
+  // Fetch the first random word when the page loads
+  fetchRandomWord();
 });
