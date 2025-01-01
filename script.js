@@ -1,5 +1,32 @@
 // Game variables
-let word = '';  // The word to guess, will be fetched from the API
+let words = [
+  "apple", "banana", "grape", "cherry", "orange", "pineapple", "strawberry", "blueberry", "peach", "mango",
+  "watermelon", "pear", "kiwi", "plum", "apricot", "fig", "lemon", "lime", "coconut", "pomegranate",
+  "elephant", "giraffe", "tiger", "lion", "zebra", "kangaroo", "koala", "penguin", "dolphin", "whale",
+  "octopus", "shark", "squid", "jellyfish", "starfish", "rabbit", "dog", "cat", "hamster", "mouse",
+  "bird", "fish", "turtle", "frog", "horse", "cow", "sheep", "goat", "pig", "chicken",
+  "apple", "book", "pen", "pencil", "notebook", "paper", "eraser", "ruler", "sharpener", "calculator",
+  "phone", "tablet", "laptop", "computer", "headphones", "speaker", "camera", "television", "monitor", "keyboard",
+  "desk", "chair", "table", "lamp", "couch", "sofa", "bed", "closet", "drawer", "mirror",
+  "wall", "floor", "ceiling", "window", "door", "curtain", "carpet", "rug", "vase", "painting",
+  "socks", "shirt", "pants", "dress", "shoes", "jacket", "hat", "scarf", "gloves", "scarf",
+  "sun", "moon", "star", "sky", "cloud", "rain", "snow", "wind", "fog", "storm",
+  "mountain", "river", "lake", "ocean", "beach", "desert", "forest", "field", "hill", "valley",
+  "city", "town", "village", "street", "building", "house", "apartment", "road", "bridge", "park",
+  "school", "library", "museum", "restaurant", "shop", "store", "market", "mall", "bank", "postoffice",
+  "doctor", "nurse", "teacher", "student", "engineer", "scientist", "artist", "actor", "musician", "writer",
+  "coffee", "tea", "water", "juice", "milk", "wine", "beer", "soda", "cocktail", "smoothie",
+  "pizza", "burger", "pasta", "sushi", "salad", "sandwich", "steak", "chicken", "fish", "dessert",
+  "chocolate", "cake", "cookie", "pie", "icecream", "candy", "popcorn", "chips", "pretzel", "nuts",
+  "health", "fitness", "exercise", "diet", "nutrition", "yoga", "meditation", "running", "swimming", "cycling",
+  "vacation", "holiday", "adventure", "journey", "trip", "exploration", "travel", "destination", "tour", "resort",
+  "mountain", "island", "beach", "desert", "forest", "wilderness", "path", "trail", "camping", "hiking",
+  "sports", "soccer", "basketball", "tennis", "volleyball", "baseball", "cricket", "rugby", "golf", "swimming",
+  "exercise", "gym", "workout", "strength", "stretching", "endurance", "flexibility", "teamwork", "competition", "coach",
+  "event", "match", "tournament", "medal", "winner", "team", "referee", "score", "goal", "champion",
+  "mountain", "river", "lake", "ocean", "field", "tree", "forest", "cliff", "cave", "canyon"
+];
+let word = words[Math.floor(Math.random() * words.length)];
 let guessedLetters = [];  // Track all guessed letters (correct and incorrect)
 let incorrectGuesses = []; // Track incorrect guesses only
 let correctGuesses = [];   // Track correct guesses only
@@ -12,33 +39,6 @@ const difficultyLevels = {
   normal: 6,  // Normal difficulty: 6 guesses
   hard: 3     // Hard difficulty: 3 guesses
 };
-
-// Fetch a random word from an API
-function fetchRandomWord() {
-  fetch('https://random-word-api.herokuapp.com/word?number=1')  // Random word API
-    .then(response => {
-      console.log("Response Status:", response.status);  // Log the status of the response
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("API Response Data:", data);  // Log the data received from the API
-      if (data && data.length > 0) {
-        word = data[0].toLowerCase();  // Set the word to the random word from API
-        startGame();
-      } else {
-        alert('No word returned from the API. Please try again.');
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching random word:', error);
-      alert('There was an error fetching a random word. Please check the console for more details.');
-    });
-}
-
-
 
 // Set difficulty based on user selection
 function setDifficulty(difficulty) {
@@ -71,7 +71,7 @@ function handleGameOver() {
 
 // Update the gallows image
 function updateGallows() {
-  let gallowsImage = `images/Gallows${6 - remainingGuesses}.png`;
+  let gallowsImage = images/Gallows${6 - remainingGuesses}.png;
   document.getElementById("gallows-image").src = gallowsImage;
 }
 
@@ -105,7 +105,7 @@ function handleGuess() {
 
     document.getElementById("guess-input").value = "";
     updateWordDisplay();
-    document.getElementById("guessed-letters").textContent = `Guessed Letters (Incorrect): ${incorrectGuesses.join(", ")}`;
+    document.getElementById("guessed-letters").textContent = Guessed Letters (Incorrect): ${incorrectGuesses.join(", ")};
     updateRemainingGuesses();
 
     if (remainingGuesses === 0) {
@@ -119,12 +119,12 @@ function handleGuess() {
 }
 
 function updateRemainingGuesses() {
-  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
+  document.getElementById("remaining-guesses").textContent = Remaining Guesses: ${remainingGuesses};
 }
 
 function displayMissedLetters() {
   let displayedWord = word.split("").map(letter => {
-    return correctGuesses.includes(letter) ? letter : `<span style="color: red;">${letter}</span>`;
+    return correctGuesses.includes(letter) ? letter : <span style="color: red;">${letter}</span>;
   }).join(" ");
 
   document.getElementById("word-to-guess").innerHTML = displayedWord;
@@ -134,13 +134,14 @@ function displayMissedLetters() {
 document.getElementById("reset-button").addEventListener("click", resetGame);
 
 function resetGame() {
-  fetchRandomWord();  // Fetch a new random word from the API
+  word = words[Math.floor(Math.random() * words.length)];
   guessedLetters = [];
   incorrectGuesses = [];
   correctGuesses = [];
   remainingGuesses = difficultyLevels.normal; // Reset to normal difficulty
   isGameOver = false;
 
+  updateWordDisplay();
   document.getElementById("gallows-image").src = "images/Gallows0.png";
   updateRemainingGuesses();
   document.getElementById("guessed-letters").textContent = "Guessed Letters (Incorrect): ";
@@ -158,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const difficultyButtons = document.querySelectorAll(".difficulty-button");
   function selectDifficulty(difficulty) {
     difficultyButtons.forEach(button => button.classList.remove("selected"));
-    document.getElementById(`${difficulty}-button`).classList.add("selected");
+    document.getElementById(${difficulty}-button).classList.add("selected");
     setDifficulty(difficulty);
   }
 
@@ -169,7 +170,4 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   selectDifficulty("normal");
-
-  // Fetch the first random word when the page loads
-  fetchRandomWord();
 });
