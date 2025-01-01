@@ -1,27 +1,43 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
 #game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#gallows-container {
-    position: relative;
+#gallows img {
+  width: 200px;
+  margin: 20px auto;
+  transition: opacity 0.5s ease;
 }
 
-#stick-figure {
-    position: absolute;
-    top: 0;
-    left: 0;
+#word-to-guess {
+  font-size: 2em;
+  margin: 20px 0;
 }
 
-.body-part {
-    display: none;
-    position: absolute;
+#guess-input {
+  font-size: 1.2em;
+  padding: 5px;
+  margin-right: 10px;
 }
 
-#head { top: 40px; left: 100px; }
-#body { top: 100px; left: 100px; }
-#left-arm { top: 100px; left: 70px; }
-#right-arm { top: 100px; left: 130px; }
-#left-leg { top: 160px; left: 80px; }
-#right-leg { top: 160px; left: 120px; }
+#guess-button {
+  font-size: 1.2em;
+  padding: 5px 10px;
+}
+
+#remaining-guesses,
+#guessed-letters,
+#hint {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
