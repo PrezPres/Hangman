@@ -59,7 +59,6 @@ function handleGuess() {
     } else {
       remainingGuesses--;
       incorrectGuesses.push(guess);
-      alert(`Wrong guess! Remaining guesses: ${remainingGuesses}`);
       updateGallows();  // Update the image based on wrong guesses
       updateIncorrectGuesses(); // Update incorrect guesses list
     }
