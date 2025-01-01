@@ -31,13 +31,15 @@ function updateWordDisplay() {
     isGameOver = true; // Stop the game
   }
 
-  // Display missed letters in red
-  displayedWord = displayedWord.split(" ").map((letter, index) => {
-    if (letter === "_" && incorrectGuesses.includes(word[index])) {
-      return `<span style="color: red;">${word[index]}</span>`;
-    }
-    return letter;
-  }).join(" ");
+  // Display missed letters in red when the game is over
+  if (isGameOver && remainingGuesses === 0) {
+    displayedWord = displayedWord.split(" ").map((letter, index) => {
+      if (letter === "_" && incorrectGuesses.includes(word[index])) {
+        return `<span style="color: red;">${word[index]}</span>`;
+      }
+      return letter;
+    }).join(" ");
+  }
 
   document.getElementById("word-to-guess").innerHTML = displayedWord;
 }
@@ -123,9 +125,6 @@ function displayMissedLetters() {
   }).join(" ");
 
   document.getElementById("word-to-guess").innerHTML = displayedWord;
-
-  // Update the "Missed letters" to display incorrect guesses in red
-  document.getElementById("missed-letters").textContent = `Missed Letters: ${incorrectGuesses.join(", ")}`;
 }
 
 // Reset button functionality
