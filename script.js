@@ -2,19 +2,21 @@
 let words = ["hangman", "javascript", "programming", "web", "game"];
 let word = words[Math.floor(Math.random() * words.length)];
 let guessedLetters = [];
-let remainingGuesses = 6;
+let remainingGuesses = 6; // Default to normal difficulty
 let unguessedLetters = word.split('').filter(letter => !guessedLetters.includes(letter));
 
-// Array of images to show as the body parts (in order)
-let bodyParts = [
-  "images/Gallows1.png",   // Initial gallows (no body parts)
-  "images/Head1.png",      // Head
-  "images/Body1.png",      // Body
-  "images/Left_Arm2.png",  // Left Arm
-  "images/Right_Arm2.png", // Right Arm
-  "images/Left_Leg2.png",  // Left Leg
-  "images/Right_Leg2.png"  // Right Leg
-];
+// Difficulty levels
+const difficultyLevels = {
+  easy: 9,    // Easy difficulty: 9 guesses
+  normal: 6,  // Normal difficulty: 6 guesses
+  hard: 3     // Hard difficulty: 3 guesses
+};
+
+// Set difficulty based on user selection
+function setDifficulty(difficulty) {
+  remainingGuesses = difficultyLevels[difficulty] || difficultyLevels.normal;
+  updateRemainingGuesses();
+}
 
 // Update the word display based on guesses
 function updateWordDisplay() {
@@ -94,7 +96,7 @@ function resetGame() {
   // Reset game variables
   word = words[Math.floor(Math.random() * words.length)];
   guessedLetters = [];
-  remainingGuesses = 6;
+  remainingGuesses = 6; // Default to normal difficulty
 
   // Reset the word display
   updateWordDisplay();
@@ -103,7 +105,7 @@ function resetGame() {
   document.getElementById("gallows-image").src = "images/Gallows0.png";
 
   // Reset the remaining guesses and guessed letters display
-  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
+  updateRemainingGuesses();
   document.getElementById("guessed-letters").textContent = "Guessed Letters: ";
 
   // Clear the input field
@@ -116,3 +118,19 @@ function resetGame() {
   // Set focus back to the "Enter a letter" textbox after reset
   document.getElementById("guess-input").focus();
 }
+
+// Update the remaining guesses text
+function updateRemainingGuesses() {
+  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
+}
+
+// Add event listeners for difficulty change
+document.getElementById("difficulty-easy").addEventListener("click", function() {
+  setDifficulty("easy");
+});
+document.getElementById("difficulty-normal").addEventListener("click", function() {
+  setDifficulty("normal");
+});
+document.getElementById("difficulty-hard").addEventListener("click", function() {
+  setDifficulty("hard");
+});
