@@ -3,38 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preston's Hangman Game</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Hangman Game</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Preston's Hangman Game</h1>
-  
-  <div id="difficulty-buttons" style="margin-bottom: 10px;">
-    <button id="easy-button" class="difficulty-button">Easy</button>
-    <button id="normal-button" class="difficulty-button">Normal</button>
-    <button id="hard-button" class="difficulty-button">Hard</button>
-  </div>
-
-  <div id="game-container">
-    <div id="gallows-container">
-      <img id="gallows-image" src="images/Gallows0.png" alt="Gallows">
+  <div class="container">
+    <h1>Hangman</h1>
+    <div class="difficulty">
+      <button id="easy-button" class="difficulty-button">Easy</button>
+      <button id="normal-button" class="difficulty-button selected">Normal</button>
+      <button id="hard-button" class="difficulty-button">Hard</button>
     </div>
-
-    <div id="word-to-guess">_ _ _ _ _ _</div>
-
-    <div id="message"></div>
-
-    <input type="text" id="guess-input" maxlength="1" placeholder="Enter a letter" style="width: 110px;">
-    <button id="guess-button">Guess</button>
-
-    <div id="remaining-guesses">Remaining Guesses: 6</div>
-    <div id="guessed-letters">Guessed Letters (Incorrect): </div>
-
-    <button id="reset-button" style="margin-top: 10px">Reset Game</button>
+    <div class="game">
+      <div id="word-display"></div>
+      <div id="gallows">
+        <img id="gallows-image" src="images/Gallows0.png" alt="Gallows">
+      </div>
+      <div id="guesses">
+        <p>Remaining Guesses: <span id="remaining-guesses"></span></p>
+        <p id="guessed-letters">Guessed Letters (Incorrect): </p>
+      </div>
+      <div class="input-section">
+        <input type="text" id="guess-input" maxlength="1" placeholder="Enter a letter">
+        <button id="guess-button">Guess</button>
+      </div>
+      <p id="message"></p>
+    </div>
   </div>
-  
   <script src="script.js"></script>
 </body>
 </html>
+
 
 <!-- Just a Comment --> 
