@@ -105,3 +105,6 @@ document.getElementById("guess-input").addEventListener("keydown", function(even
     handleGuess();
   }
 });
+
+// Focus management: Set focus back to the "Enter a letter" textbox after a guess or reset
+document.getElementById("guess-input").focus();
