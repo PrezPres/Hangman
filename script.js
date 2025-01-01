@@ -32,17 +32,16 @@ function updateWordDisplay() {
     isGameOver = true; // Stop the game
   }
 
-  // Display missed letters in red when the game is over
-  if (isGameOver && remainingGuesses === 0) {
-    displayedWord = displayedWord.split(" ").map((letter, index) => {
-      if (letter === "_" && incorrectGuesses.includes(word[index])) {
-        return `<span style="color: red;">${word[index]}</span>`;
-      }
-      return letter;
-    }).join(" ");
-  }
-
   document.getElementById("word-to-guess").innerHTML = displayedWord;
+}
+
+// Function to handle game-over scenarios
+function handleGameOver() {
+  if (remainingGuesses === 0) {
+    document.getElementById("message").textContent = "You Lost!";
+    displayMissedLetters(); // Display missed letters in red
+    isGameOver = true; // Stop the game
+  }
 }
 
 // Update the gallows (stick figure) image based on wrong guesses
@@ -96,11 +95,11 @@ function handleGuess() {
     updateRemainingGuesses();
 
     // Check if player has lost
-    if (remainingGuesses === 0) {
-      document.getElementById("message").textContent = "You Lost!";
-      displayMissedLetters();
-      isGameOver = true; // Stop the game
-    }
+     if (remainingGuesses === 0) {
+    document.getElementById("message").textContent = "You Lost!";
+    displayMissedLetters(); // Show the word with missed letters in red
+    isGameOver = true; // Stop the game
+  }
   }
 
   // Set focus back to the "Enter a letter" textbox after guess
@@ -112,22 +111,22 @@ function updateRemainingGuesses() {
   document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
 }
 
-// Display missed letters (incorrect guesses) in red after loss
+// Function to display the word with missed letters in red when the game is lost
 function displayMissedLetters() {
-  let displayedWord = word.split("").map(letter => {
-    return correctGuesses.includes(letter) ? letter : "_";
-  }).join(" ");
-
-  // Replace underscores with missed letters in red
-  displayedWord = displayedWord.split(" ").map((letter, index) => {
-    if (letter === "_" && incorrectGuesses.includes(word[index])) {
-      return `<span style="color: red;">${word[index]}</span>`;
+  let displayedWord = word.split("").map((letter) => {
+    if (correctGuesses.includes(letter)) {
+      // Correctly guessed letter
+      return letter;
+    } else {
+      // Missed letter (display in red)
+      return `<span style="color: red;">${letter}</span>`;
     }
-    return letter;
   }).join(" ");
 
+  // Update the word display with missed letters
   document.getElementById("word-to-guess").innerHTML = displayedWord;
 }
+
 
 // Reset button functionality
 document.getElementById("reset-button").addEventListener("click", function() {
