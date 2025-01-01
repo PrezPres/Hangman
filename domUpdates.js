@@ -25,7 +25,7 @@ function updateDisplay() {
   wordToGuess.textContent = game.getDisplayedWord();
   remainingGuessesDisplay.textContent = `Remaining Guesses: ${game.remainingGuesses}`;
   guessedLettersDisplay.textContent = `Guessed Letters: ${game.guessedLetters.join(", ")}`;
-  gallowsImage.src = `images/Gallows${7 - game.remainingGuesses}.png`;
+  gallowsImage.src = `images/Gallows${6 - game.remainingGuesses}.png`;
 }
 
 updateDisplay();
