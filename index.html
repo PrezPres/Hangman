@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hangman Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hangman Game</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hangman Game</h1>
-    <div id="game-container">
-        <div id="gallows-container">
-            <img id="Gallows" src="images/Gallows.png" alt="Gallows" />
-            <div id="stick-figure">
-                <img id="Head" class="body-part" src="" alt="Head">
-                <img id="Body" class="body-part" src="" alt="Body">
-                <img id="Left_Arm" class="body-part" src="" alt="Left_Arm">
-                <img id="Right_Arm" class="body-part" src="" alt="Right_Arm">
-                <img id="Left_Leg" class="body-part" src="" alt="Left_Leg">
-                <img id="Right_Leg" class="body-part" src="" alt="Right_Leg">
-            </div>
-        </div>
-        <div id="word-container">
-            <!-- Word display (hidden letters, underscores, etc.) -->
-        </div>
-        <div id="guesses">
-            <!-- Letter buttons and wrong guesses -->
-        </div>
-    </div>
-    <script src="script.js"></script>
+  <h1>Hangman Game</h1>
+  
+  <!-- Gallows and Stick Figure -->
+  <div id="gallows">
+    <img id="gallows-image" src="images/Gallows.png" alt="Gallows" />
+  </div>
+
+  <!-- Display the word to guess -->
+  <div id="word-to-guess">
+    <!-- The word to guess will be displayed here -->
+  </div>
+
+  <!-- User's Guess Input -->
+  <input type="text" id="guess-input" maxlength="1" placeholder="Enter a letter" />
+  <button id="guess-button">Guess</button>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
 
 <!-- Just a Comment -->
