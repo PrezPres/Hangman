@@ -25,20 +25,20 @@ function updateWordDisplay() {
     return guessedLetters.includes(letter) ? letter : "_";
   }).join(" ");
 
-  // Display missed letters in red color
+  // Check if player has won
+  if (!displayedWord.includes("_")) {
+    document.getElementById("message").textContent = "You won!";
+  }
+
+  // Display missed letters in red
   displayedWord = displayedWord.split(" ").map((letter, index) => {
     if (letter === "_" && incorrectGuesses.includes(word[index])) {
-      return `<span style="color: red;">${letter}</span>`;
+      return `<span style="color: red;">${word[index]}</span>`;
     }
     return letter;
   }).join(" ");
 
   document.getElementById("word-to-guess").innerHTML = displayedWord;
-
-  // Check if the player has won
-  if (!displayedWord.includes("_")) {
-    document.getElementById("message").textContent = "You won!";
-  }
 }
 
 // Update the gallows (stick figure) image based on wrong guesses
@@ -97,21 +97,6 @@ function handleGuess() {
 
   // Set focus back to the "Enter a letter" textbox after guess
   document.getElementById("guess-input").focus();
-}
-
-// Function to display missed letters in red within the word area
-function displayMissedLetters() {
-  let displayedWord = word.split("").map((letter, index) => {
-    if (incorrectGuesses.includes(letter)) {
-      return `<span style="color: red;">${letter}</span>`;
-    } else if (guessedLetters.includes(letter)) {
-      return letter;
-    } else {
-      return "_";
-    }
-  }).join(" ");
-
-  document.getElementById("word-to-guess").innerHTML = displayedWord;
 }
 
 // Update the remaining guesses text
