@@ -54,3 +54,22 @@ select {
   font-size: 18px;
   padding: 5px;
 }
+
+.difficulty-button {
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.difficulty-button:hover {
+  background-color: #f0f0f0;
+}
+
+.difficulty-button.selected {
+  background-color: #007BFF;
+  color: white;
+  border-color: #0056b3;
+}
