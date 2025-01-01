@@ -1,10 +1,11 @@
 // Game variables
 let words = ["hangman", "javascript", "programming", "web", "game"];
 let word = words[Math.floor(Math.random() * words.length)];
-let guessedLetters = [];
-let incorrectGuesses = []; // Track incorrect guesses
-let remainingGuesses = 6; // Default to normal difficulty
-let isGameOver = false; // Flag to check if the game is over
+let guessedLetters = [];  // Track all guessed letters (correct and incorrect)
+let incorrectGuesses = []; // Track incorrect guesses only
+let correctGuesses = [];   // Track correct guesses only
+let remainingGuesses = 6;  // Default to normal difficulty
+let isGameOver = false;    // Flag to check if the game is over
 
 // Difficulty levels
 const difficultyLevels = {
@@ -22,7 +23,7 @@ function setDifficulty(difficulty) {
 // Update the word display based on guesses
 function updateWordDisplay() {
   let displayedWord = word.split("").map(letter => {
-    return guessedLetters.includes(letter) ? letter : "_";
+    return correctGuesses.includes(letter) ? letter : "_";
   }).join(" ");
 
   // Check if player has won
@@ -69,11 +70,12 @@ document.getElementById("guess-input").addEventListener("keydown", function(even
 function handleGuess() {
   let guess = document.getElementById("guess-input").value.toLowerCase();
 
-  // Check if the guess is valid
-  if (guess && !guessedLetters.includes(guess) && !incorrectGuesses.includes(guess)) {
-    guessedLetters.push(guess);
+  // Check if the guess is valid and not already guessed
+  if (guess && !guessedLetters.includes(guess) && !incorrectGuesses.includes(guess) && !correctGuesses.includes(guess)) {
+    guessedLetters.push(guess);  // Add to total guesses
     if (word.includes(guess)) {
-      // Correct guess, do nothing more here
+      // Correct guess, add it to the correct guesses
+      correctGuesses.push(guess);
     } else {
       // Incorrect guess, reduce remaining guesses and update gallows
       incorrectGuesses.push(guess);
@@ -87,8 +89,8 @@ function handleGuess() {
     // Update the word display
     updateWordDisplay();
 
-    // Update guessed letters
-    document.getElementById("guessed-letters").textContent = `Guessed Letters: ${guessedLetters.join(", ")}`;
+    // Update guessed letters (only incorrect ones here)
+    document.getElementById("guessed-letters").textContent = `Guessed Letters (Incorrect): ${incorrectGuesses.join(", ")}`;
 
     // Update remaining guesses
     updateRemainingGuesses();
@@ -113,7 +115,7 @@ function updateRemainingGuesses() {
 // Display missed letters (incorrect guesses) in red after loss
 function displayMissedLetters() {
   let displayedWord = word.split("").map(letter => {
-    return guessedLetters.includes(letter) ? letter : "_";
+    return correctGuesses.includes(letter) ? letter : "_";
   }).join(" ");
 
   // Replace underscores with missed letters in red
@@ -138,6 +140,7 @@ function resetGame() {
   word = words[Math.floor(Math.random() * words.length)];
   guessedLetters = [];
   incorrectGuesses = [];
+  correctGuesses = [];
   remainingGuesses = 6; // Default to normal difficulty
   isGameOver = false; // Reset game over flag
 
@@ -149,10 +152,7 @@ function resetGame() {
 
   // Reset the remaining guesses and guessed letters display
   updateRemainingGuesses();
-  document.getElementById("guessed-letters").textContent = "Guessed Letters: ";
-
-  // Reset the missed letters display
-  document.getElementById("missed-letters").textContent = "Missed Letters: ";
+  document.getElementById("guessed-letters").textContent = "Guessed Letters (Incorrect): ";
 
   // Clear the input field
   document.getElementById("guess-input").value = "";
