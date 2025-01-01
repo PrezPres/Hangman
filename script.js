@@ -164,12 +164,39 @@ function resetGame() {
 }
 
 // Add event listeners for difficulty change
-document.getElementById("difficulty-easy").addEventListener("click", function() {
-  setDifficulty("easy");
+document.addEventListener("DOMContentLoaded", function () {
+  const difficultyButtons = document.querySelectorAll(".difficulty-button");
+  let remainingGuessesMap = {
+    easy: 10,
+    normal: 6,
+    hard: 4,
+  };
+
+  // Function to handle difficulty selection
+  function selectDifficulty(difficulty) {
+    // Remove the "selected" class from all buttons
+    difficultyButtons.forEach(button => button.classList.remove("selected"));
+
+    // Add the "selected" class to the clicked button
+    document.getElementById(`${difficulty}-button`).classList.add("selected");
+
+    // Adjust remaining guesses
+    let previousGuesses = 6 - remainingGuesses;
+    remainingGuesses = Math.max(remainingGuessesMap[difficulty] - previousGuesses, 0);
+
+    // Update the UI
+    updateGuessesDisplay();
+  }
+
+  // Attach event listeners to difficulty buttons
+  difficultyButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      let difficulty = this.id.replace("-button", ""); // Extract difficulty (easy, normal, hard)
+      selectDifficulty(difficulty);
+    });
+  });
+
+  // Initialize the default difficulty
+  selectDifficulty("normal");
 });
-document.getElementById("difficulty-normal").addEventListener("click", function() {
-  setDifficulty("normal");
-});
-document.getElementById("difficulty-hard").addEventListener("click", function() {
-  setDifficulty("hard");
-});
+
