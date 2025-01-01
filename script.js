@@ -45,7 +45,7 @@ function handleGameOver() {
 
 // Update the gallows image
 function updateGallows() {
-  let gallowsImage = images/Gallows${6 - remainingGuesses}.png;
+  let gallowsImage = `images/Gallows${6 - remainingGuesses}.png`;
   document.getElementById("gallows-image").src = gallowsImage;
 }
 
@@ -79,7 +79,7 @@ function handleGuess() {
 
     document.getElementById("guess-input").value = "";
     updateWordDisplay();
-    document.getElementById("guessed-letters").textContent = Guessed Letters (Incorrect): ${incorrectGuesses.join(", ")};
+    document.getElementById("guessed-letters").textContent = `Guessed Letters (Incorrect): ${incorrectGuesses.join(", ")}`;
     updateRemainingGuesses();
 
     if (remainingGuesses === 0) {
@@ -93,12 +93,12 @@ function handleGuess() {
 }
 
 function updateRemainingGuesses() {
-  document.getElementById("remaining-guesses").textContent = Remaining Guesses: ${remainingGuesses};
+  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
 }
 
 function displayMissedLetters() {
   let displayedWord = word.split("").map(letter => {
-    return correctGuesses.includes(letter) ? letter : <span style="color: red;">${letter}</span>;
+    return correctGuesses.includes(letter) ? letter : `<span style="color: red;">${letter}</span>`;
   }).join(" ");
 
   document.getElementById("word-to-guess").innerHTML = displayedWord;
@@ -112,7 +112,7 @@ function resetGame() {
   guessedLetters = [];
   incorrectGuesses = [];
   correctGuesses = [];
-  remainingGuesses = difficultyLevels.normal; // Reset to normal difficulty
+  remainingGuesses = 6;
   isGameOver = false;
 
   updateWordDisplay();
@@ -122,18 +122,13 @@ function resetGame() {
   document.getElementById("guess-input").value = "";
   document.getElementById("message").textContent = "";
   document.getElementById("guess-input").focus();
-
-  // Reset difficulty buttons to "Normal"
-  const difficultyButtons = document.querySelectorAll(".difficulty-button");
-  difficultyButtons.forEach(button => button.classList.remove("selected"));
-  document.getElementById("normal-button").classList.add("selected");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
   const difficultyButtons = document.querySelectorAll(".difficulty-button");
   function selectDifficulty(difficulty) {
     difficultyButtons.forEach(button => button.classList.remove("selected"));
-    document.getElementById(${difficulty}-button).classList.add("selected");
+    document.getElementById(`${difficulty}-button`).classList.add("selected");
     setDifficulty(difficulty);
   }
 
