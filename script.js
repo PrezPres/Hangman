@@ -112,7 +112,7 @@ function resetGame() {
   guessedLetters = [];
   incorrectGuesses = [];
   correctGuesses = [];
-  remainingGuesses = 6;
+  remainingGuesses = difficultyLevels.normal; // Reset to normal difficulty
   isGameOver = false;
 
   updateWordDisplay();
@@ -123,8 +123,10 @@ function resetGame() {
   document.getElementById("message").textContent = "";
   document.getElementById("guess-input").focus();
 
-  // Reset difficulty to Normal and update buttons
-  selectDifficulty("normal");
+  // Reset difficulty buttons to "Normal"
+  const difficultyButtons = document.querySelectorAll(".difficulty-button");
+  difficultyButtons.forEach(button => button.classList.remove("selected"));
+  document.getElementById("normal-button").classList.add("selected");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
