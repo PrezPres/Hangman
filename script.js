@@ -1,31 +1,5 @@
 // Game variables
-let words = [
-  "apple", "banana", "grape", "cherry", "orange", "pineapple", "strawberry", "blueberry", "peach", "mango",
-  "watermelon", "pear", "kiwi", "plum", "apricot", "fig", "lemon", "lime", "coconut", "pomegranate",
-  "elephant", "giraffe", "tiger", "lion", "zebra", "kangaroo", "koala", "penguin", "dolphin", "whale",
-  "octopus", "shark", "squid", "jellyfish", "starfish", "rabbit", "dog", "cat", "hamster", "mouse",
-  "bird", "fish", "turtle", "frog", "horse", "cow", "sheep", "goat", "pig", "chicken",
-  "apple", "book", "pen", "pencil", "notebook", "paper", "eraser", "ruler", "sharpener", "calculator",
-  "phone", "tablet", "laptop", "computer", "headphones", "speaker", "camera", "television", "monitor", "keyboard",
-  "desk", "chair", "table", "lamp", "couch", "sofa", "bed", "closet", "drawer", "mirror",
-  "wall", "floor", "ceiling", "window", "door", "curtain", "carpet", "rug", "vase", "painting",
-  "socks", "shirt", "pants", "dress", "shoes", "jacket", "hat", "scarf", "gloves", "scarf",
-  "sun", "moon", "star", "sky", "cloud", "rain", "snow", "wind", "fog", "storm",
-  "mountain", "river", "lake", "ocean", "beach", "desert", "forest", "field", "hill", "valley",
-  "city", "town", "village", "street", "building", "house", "apartment", "road", "bridge", "park",
-  "school", "library", "museum", "restaurant", "shop", "store", "market", "mall", "bank", "postoffice",
-  "doctor", "nurse", "teacher", "student", "engineer", "scientist", "artist", "actor", "musician", "writer",
-  "coffee", "tea", "water", "juice", "milk", "wine", "beer", "soda", "cocktail", "smoothie",
-  "pizza", "burger", "pasta", "sushi", "salad", "sandwich", "steak", "chicken", "fish", "dessert",
-  "chocolate", "cake", "cookie", "pie", "icecream", "candy", "popcorn", "chips", "pretzel", "nuts",
-  "health", "fitness", "exercise", "diet", "nutrition", "yoga", "meditation", "running", "swimming", "cycling",
-  "vacation", "holiday", "adventure", "journey", "trip", "exploration", "travel", "destination", "tour", "resort",
-  "mountain", "island", "beach", "desert", "forest", "wilderness", "path", "trail", "camping", "hiking",
-  "sports", "soccer", "basketball", "tennis", "volleyball", "baseball", "cricket", "rugby", "golf", "swimming",
-  "exercise", "gym", "workout", "strength", "stretching", "endurance", "flexibility", "teamwork", "competition", "coach",
-  "event", "match", "tournament", "medal", "winner", "team", "referee", "score", "goal", "champion",
-  "mountain", "river", "lake", "ocean", "field", "tree", "forest", "cliff", "cave", "canyon"
-];
+let words = ["hangman", "javascript", "programming", "web", "game"];
 let word = words[Math.floor(Math.random() * words.length)];
 let guessedLetters = [];  // Track all guessed letters (correct and incorrect)
 let incorrectGuesses = []; // Track incorrect guesses only
