@@ -9,42 +9,29 @@
 <body>
   <h1>Preston's Hangman Game</h1>
 
-  <div id="gallows-container">
-    <img id="gallows-image" src="images/Gallows0.png" alt="Gallows">
-  </div>
+  <div id="game-container">
+    <div id="gallows-container">
+      <img id="gallows-image" src="images/Gallows0.png" alt="Gallows">
+    </div>
 
-  <div id="word-to-guess">_ _ _ _ _ _ _ _</div>
+    <div id="word-to-guess">_ _ _ _ _ _</div>
 
-  <div>
     <input type="text" id="guess-input" maxlength="1" placeholder="Enter a letter">
     <button id="guess-button">Guess</button>
-  </div>
 
-  <div>
-    <button id="hint-button">Show Hint</button>
-  </div>
+    <div id="remaining-guesses">Remaining Guesses: 6</div>
+    <div id="guessed-letters">Guessed Letters: </div>
 
-  <div>
-    <label for="difficulty">Choose Difficulty:</label>
-    <select id="difficulty">
-      <option value="easy">Easy</option>
-      <option value="medium">Medium</option>
-      <option value="hard">Hard</option>
-    </select>
-  </div>
+    <div id="message"></div>
+    <div id="unguessed-letters"></div>
 
-  <div>
-    <p id="incorrect-guesses-title">Incorrect Guesses:</p>
-    <div id="incorrect-guesses"></div>
-  </div>
-
-  <div>
-    <button id="reset-button">Reset Game</button>
+    <button id="reset-button" style="margin-top: 10px">Reset Game</button>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
 <!-- Just a Comment --> 
