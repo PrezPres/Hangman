@@ -122,6 +122,9 @@ function resetGame() {
   document.getElementById("guess-input").value = "";
   document.getElementById("message").textContent = "";
   document.getElementById("guess-input").focus();
+
+  // Reset difficulty to Normal and update buttons
+  selectDifficulty("normal");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
