@@ -2,6 +2,7 @@
 let words = ["hangman", "javascript", "programming", "web", "game"];
 let word = words[Math.floor(Math.random() * words.length)];
 let guessedLetters = [];
+let incorrectGuesses = []; // Track incorrect guesses
 let remainingGuesses = 6; // Default to normal difficulty
 let unguessedLetters = word.split('').filter(letter => !guessedLetters.includes(letter));
 
@@ -24,7 +25,15 @@ function updateWordDisplay() {
     return guessedLetters.includes(letter) ? letter : "_";
   }).join(" ");
 
-  document.getElementById("word-to-guess").textContent = displayedWord;
+  // Display missed letters in red color
+  displayedWord = displayedWord.split(" ").map((letter, index) => {
+    if (letter === "_" && incorrectGuesses.includes(word[index])) {
+      return `<span style="color: red;">${letter}</span>`;
+    }
+    return letter;
+  }).join(" ");
+
+  document.getElementById("word-to-guess").innerHTML = displayedWord;
 
   // Check if the player has won
   if (!displayedWord.includes("_")) {
@@ -56,12 +65,13 @@ function handleGuess() {
   let guess = document.getElementById("guess-input").value.toLowerCase();
   
   // Check if the guess is valid
-  if (guess && !guessedLetters.includes(guess)) {
+  if (guess && !guessedLetters.includes(guess) && !incorrectGuesses.includes(guess)) {
     guessedLetters.push(guess);
     if (word.includes(guess)) {
       // Correct guess, do nothing more here
     } else {
       // Incorrect guess, reduce remaining guesses and update gallows
+      incorrectGuesses.push(guess);
       remainingGuesses--;
       updateGallows();
     }
@@ -72,10 +82,16 @@ function handleGuess() {
     // Update the word display
     updateWordDisplay();
 
+    // Update guessed letters
+    document.getElementById("guessed-letters").textContent = `Guessed Letters: ${guessedLetters.join(", ")}`;
+
+    // Update remaining guesses
+    updateRemainingGuesses();
+
     // Check if player has lost
     if (remainingGuesses === 0) {
       document.getElementById("message").textContent = "You Lost!";
-      displayUnguessedLetters();
+      displayMissedLetters();
     }
   }
 
@@ -83,10 +99,24 @@ function handleGuess() {
   document.getElementById("guess-input").focus();
 }
 
-// Function to display unguessed letters in red
-function displayUnguessedLetters() {
-  let unguessed = word.split("").filter(letter => !guessedLetters.includes(letter)).join("");
-  document.getElementById("unguessed-letters").innerHTML = `Unguessed Letters: <span style="color: red;">${unguessed}</span>`;
+// Function to display missed letters in red within the word area
+function displayMissedLetters() {
+  let displayedWord = word.split("").map((letter, index) => {
+    if (incorrectGuesses.includes(letter)) {
+      return `<span style="color: red;">${letter}</span>`;
+    } else if (guessedLetters.includes(letter)) {
+      return letter;
+    } else {
+      return "_";
+    }
+  }).join(" ");
+
+  document.getElementById("word-to-guess").innerHTML = displayedWord;
+}
+
+// Update the remaining guesses text
+function updateRemainingGuesses() {
+  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
 }
 
 // Reset button functionality
@@ -99,6 +129,7 @@ function resetGame() {
   // Reset game variables
   word = words[Math.floor(Math.random() * words.length)];
   guessedLetters = [];
+  incorrectGuesses = [];
   remainingGuesses = 6; // Default to normal difficulty
 
   // Reset the word display
@@ -114,17 +145,11 @@ function resetGame() {
   // Clear the input field
   document.getElementById("guess-input").value = "";
 
-  // Reset the message and unguessed letters display
+  // Reset the message
   document.getElementById("message").textContent = "";
-  document.getElementById("unguessed-letters").textContent = "";
 
   // Set focus back to the "Enter a letter" textbox after reset
   document.getElementById("guess-input").focus();
-}
-
-// Update the remaining guesses text
-function updateRemainingGuesses() {
-  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
 }
 
 // Add event listeners for difficulty change
