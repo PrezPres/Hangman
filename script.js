@@ -18,10 +18,10 @@ let bodyParts = [
   "images/Gallows1.png",   // Initial gallows (no body parts)
   "images/Head1.png",      // Head
   "images/Body1.png",      // Body
-  "images/Left_Arm1.png",  // Left Arm
-  "images/Right_Arm1.png", // Right Arm
-  "images/Left_Leg1.png",  // Left Leg
-  "images/Right_Leg1.png"  // Right Leg
+  "images/Left_Arm2.png",  // Left Arm
+  "images/Right_Arm2.png", // Right Arm
+  "images/Left_Leg2.png",  // Left Leg
+  "images/Right_Leg2.png"  // Right Leg
 ];
 
 // Update the word display based on guesses
