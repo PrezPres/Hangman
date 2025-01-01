@@ -4,7 +4,15 @@ let words = ["hangman", "javascript", "programming", "web", "game"];
 // Game variables
 let word = words[Math.floor(Math.random() * words.length)];
 let guessedLetters = [];
-let remainingGuesses = 6;
+let incorrectGuesses = [];
+let remainingGuesses = 6; // Default easy difficulty
+
+// Difficulty levels
+const difficultyLevels = {
+  easy: 6,
+  medium: 5,
+  hard: 4
+};
 
 // Body part images for the gallows (wrong guesses)
 let bodyParts = [
@@ -17,7 +25,7 @@ let bodyParts = [
   "images/Right_Leg2.png"  // Right Leg
 ];
 
-// Update the word display
+// Function to update the word display
 function updateWordDisplay() {
   let displayedWord = word.split("").map(letter => {
     return guessedLetters.includes(letter) ? letter : "_";
@@ -30,23 +38,30 @@ function updateWordDisplay() {
   }
 }
 
-// Update the gallows (stick figure) image based on wrong guesses
+// Function to update the gallows image based on wrong guesses
 function updateGallows() {
   let gallowsImage = bodyParts[6 - remainingGuesses]; // Get the next part of the body
   document.getElementById("gallows-image").src = gallowsImage;
 }
 
+// Function to update the incorrect guesses display
+function updateIncorrectGuesses() {
+  document.getElementById("incorrect-guesses").textContent = incorrectGuesses.join(", ");
+}
+
 // Handle the guess logic
 function handleGuess() {
   let guess = document.getElementById("guess-input").value.toLowerCase();
-  if (guess && !guessedLetters.includes(guess)) {
+  if (guess && !guessedLetters.includes(guess) && !incorrectGuesses.includes(guess)) {
     guessedLetters.push(guess);
     if (word.includes(guess)) {
       // Correct guess, nothing extra needed
     } else {
       remainingGuesses--;
+      incorrectGuesses.push(guess);
       alert(`Wrong guess! Remaining guesses: ${remainingGuesses}`);
       updateGallows();  // Update the image based on wrong guesses
+      updateIncorrectGuesses(); // Update incorrect guesses list
     }
 
     // Clear the input field
@@ -75,7 +90,8 @@ function resetGame() {
   // Reset game variables
   word = words[Math.floor(Math.random() * words.length)];
   guessedLetters = [];
-  remainingGuesses = 6;
+  incorrectGuesses = [];
+  remainingGuesses = difficultyLevels[document.getElementById("difficulty").value] || 6;
 
   // Reset the word display
   updateWordDisplay();
@@ -83,8 +99,8 @@ function resetGame() {
   // Reset the gallows image
   document.getElementById("gallows-image").src = "images/Gallows0.png";
 
-  // Reset the remaining guesses display
-  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
+  // Reset the incorrect guesses display
+  updateIncorrectGuesses();
 
   // Clear the input field
   document.getElementById("guess-input").value = "";
@@ -92,6 +108,11 @@ function resetGame() {
   // Set focus back to the "Enter a letter" textbox after reset
   document.getElementById("guess-input").focus();
 }
+
+// Hint button functionality
+document.getElementById("hint-button").addEventListener("click", function() {
+  alert("The first letter of the word is: " + word.charAt(0).toUpperCase());
+});
 
 // Guess button functionality
 document.getElementById("guess-button").addEventListener("click", function() {
