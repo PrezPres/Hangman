@@ -1,41 +1,71 @@
-let wrongGuesses = 0;
-const maxWrongGuesses = 6; // Total parts (head, body, arms, legs)
+// Example words array
+let words = ["hangman", "javascript", "programming", "web", "game"];
 
-const bodyParts = [
-    document.getElementById('head'),
-    document.getElementById('body'),
-    document.getElementById('left-arm'),
-    document.getElementById('right-arm'),
-    document.getElementById('left-leg'),
-    document.getElementById('right-leg')
+// Pick a random word
+let word = words[Math.floor(Math.random() * words.length)];
+
+// Create blanks for the word
+let blanks = word.split("").map(letter => "_").join(" ");
+
+// Display the blanks
+document.getElementById("word-to-guess").textContent = blanks;
+
+let guessedLetters = [];
+let remainingGuesses = 6; // Number of guesses allowed
+
+// Array of images to show as the body parts (in order)
+let bodyParts = [
+  "images/Gallows.png",   // Initial gallows (no body parts)
+  "images/Head.png",      // Head
+  "images/Body.png",      // Body
+  "images/Left_Arm.png",  // Left Arm
+  "images/Right_Arm.png", // Right Arm
+  "images/Left_Leg.png",  // Left Leg
+  "images/Right_Leg.png"  // Right Leg
 ];
 
-function makeWrongGuess() {
-    if (wrongGuesses < maxWrongGuesses) {
-        bodyParts[wrongGuesses].src = `images/${bodyPartImages[wrongGuesses]}`; // Change image path for each body part
-        bodyParts[wrongGuesses].style.display = 'block';
-        wrongGuesses++;
+// Update the word display based on guesses
+function updateWordDisplay() {
+  let displayedWord = word.split("").map(letter => {
+    return guessedLetters.includes(letter) ? letter : "_";
+  }).join(" ");
+
+  document.getElementById("word-to-guess").textContent = displayedWord;
+
+  // Check if the player has won
+  if (!displayedWord.includes("_")) {
+    alert("You won!");
+  }
+}
+
+// Update the gallows (stick figure) image based on wrong guesses
+function updateGallows() {
+  let gallowsImage = bodyParts[6 - remainingGuesses]; // Get the next part of the body
+  document.getElementById("gallows-image").src = gallowsImage;
+}
+
+// Guess button functionality
+document.getElementById("guess-button").addEventListener("click", function() {
+  let guess = document.getElementById("guess-input").value.toLowerCase();
+  if (guess && !guessedLetters.includes(guess)) {
+    guessedLetters.push(guess);
+    if (word.includes(guess)) {
+      // Correct guess
+    } else {
+      remainingGuesses--;
+      alert(`Wrong guess! Remaining guesses: ${remainingGuesses}`);
+      updateGallows();  // Update the image based on wrong guesses
     }
-}
 
-// Sample bodyPartImages array that corresponds to the body part images
-const bodyPartImages = [
-    'head.png', 
-    'body.png', 
-    'left-arm.png', 
-    'right-arm.png', 
-    'left-leg.png', 
-    'right-leg.png'
-];
+    // Clear the input field
+    document.getElementById("guess-input").value = "";
 
-// Example function to simulate wrong guesses
-function handleGuess(letter) {
-    if (!correctGuess(letter)) { // If the guess is wrong
-        makeWrongGuess();
+    // Update the word display
+    updateWordDisplay();
+
+    // Check if player has lost
+    if (remainingGuesses === 0) {
+      alert("You lost! The word was: " + word);
     }
-}
-
-function correctGuess(letter) {
-    // Check if the guess is correct and return true or false
-    return false;  // For testing, you can set it to always return false (simulate wrong guesses)
-}
+  }
+});
