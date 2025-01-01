@@ -15,13 +15,13 @@ let remainingGuesses = 6; // Number of guesses allowed
 
 // Array of images to show as the body parts (in order)
 let bodyParts = [
-  "images/Gallows.png",   // Initial gallows (no body parts)
-  "images/Head.png",      // Head
-  "images/Body.png",      // Body
-  "images/Left_Arm.png",  // Left Arm
-  "images/Right_Arm.png", // Right Arm
-  "images/Left_Leg.png",  // Left Leg
-  "images/Right_Leg.png"  // Right Leg
+  "images/Gallows1.png",   // Initial gallows (no body parts)
+  "images/Head1.png",      // Head
+  "images/Body1.png",      // Body
+  "images/Left_Arm1.png",  // Left Arm
+  "images/Right_Arm1.png", // Right Arm
+  "images/Left_Leg1.png",  // Left Leg
+  "images/Right_Leg1.png"  // Right Leg
 ];
 
 // Update the word display based on guesses
