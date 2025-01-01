@@ -8,41 +8,23 @@
 </head>
 <body>
   <h1>Preston's Hangman Game</h1>
-  
-  <div id="game-container">
-    <!-- Gallows and Stick Figure -->
-    <div id="gallows">
-      <img id="gallows-image" src="images/Gallows0.png" alt="Gallows" />
-    </div>
 
-    <!-- Display the word to guess -->
-    <div id="word-to-guess"></div>
-
-    <!-- User's Guess Input -->
-    <input type="text" id="guess-input" maxlength="1" placeholder="Enter a letter">
-    <button id="guess-button">Guess</button>
-
-    <!-- Remaining Guesses -->
-    <p id="remaining-guesses">Remaining Guesses: 6</p>
-
-    <!-- Guessed Letters -->
-    <p id="guessed-letters">Guessed Letters: </p>
-
-    <!-- Hint and Difficulty -->
-    <button id="show-hint" style="margin-bottom: 10px">Show Hint</button>
-    <p id="hint">Hint: </p>
-    <select id="difficulty">
-      <option value="6">Easy</option>
-      <option value="4">Medium</option>
-      <option value="2">Hard</option>
-    </select>
-    
-    <!-- Reset Button -->
-    <button id="reset-button" style="margin-top: 10px">Reset Game</button>
+  <div id="gallows-container">
+    <img id="gallows-image" src="images/Gallows0.png" alt="Gallows">
   </div>
 
-  <script src="gameLogic.js" type="module"></script>
-  <script src="domUpdates.js" type="module"></script>
+  <div id="word-to-guess">_ _ _ _ _ _ _ _</div>
+
+  <div>
+    <input type="text" id="guess-input" maxlength="1" placeholder="Enter a letter">
+    <button id="guess-button">Guess</button>
+  </div>
+
+  <div>
+    <button id="reset-button">Reset Game</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
 
