@@ -39,3 +39,32 @@ function handleGuess() {
   // Set focus back to the "Enter a letter" textbox after guess
   document.getElementById("guess-input").focus();
 }
+
+// Reset button functionality
+document.getElementById("reset-button").addEventListener("click", function() {
+  resetGame();
+});
+
+// Function to reset the game
+function resetGame() {
+  // Reset game variables
+  word = words[Math.floor(Math.random() * words.length)];
+  guessedLetters = [];
+  remainingGuesses = 6;
+  
+  // Reset the word display
+  updateWordDisplay();
+
+  // Reset the gallows image
+  document.getElementById("gallows-image").src = "images/Gallows0.png";
+
+  // Reset the remaining guesses and guessed letters display
+  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
+  document.getElementById("guessed-letters").textContent = "Guessed Letters: ";
+
+  // Clear the input field
+  document.getElementById("guess-input").value = "";
+
+  // Set focus back to the "Enter a letter" textbox after reset
+  document.getElementById("guess-input").focus();
+}
