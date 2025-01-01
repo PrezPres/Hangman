@@ -1,131 +1,25 @@
-// Game variables
-let words = ["hangman", "javascript", "programming", "web", "game"];
-let word = words[Math.floor(Math.random() * words.length)];
-let guessedLetters = [];  // Track all guessed letters (correct and incorrect)
-let incorrectGuesses = []; // Track incorrect guesses only
-let correctGuesses = [];   // Track correct guesses only
-let remainingGuesses = 6;  // Default to normal difficulty
-let isGameOver = false;    // Flag to check if the game is over
+// Define variables
+let wordList = ["javascript", "hangman", "coding", "developer", "frontend"];
+let chosenWord = "";
+let remainingGuesses = 6;
+let guessedLetters = [];
+let incorrectGuesses = [];
+let correctGuesses = [];
+let isGameOver = false;
 
-// Difficulty levels
 const difficultyLevels = {
-  easy: 9,    // Easy difficulty: 9 guesses
-  normal: 6,  // Normal difficulty: 6 guesses
-  hard: 3     // Hard difficulty: 3 guesses
+  easy: 9,
+  normal: 6,
+  hard: 3,
 };
 
-// Set difficulty based on user selection
-function setDifficulty(difficulty) {
-  remainingGuesses = difficultyLevels[difficulty] || difficultyLevels.normal;
-  updateRemainingGuesses();
-}
-
-// Update the word display based on guesses
-function updateWordDisplay() {
-  let displayedWord = word.split("").map(letter => {
-    return correctGuesses.includes(letter) ? letter : "_";
-  }).join(" ");
-
-  if (!displayedWord.includes("_")) {
-    document.getElementById("message").textContent = "You won!";
-    isGameOver = true;
-  }
-
-  document.getElementById("word-to-guess").innerHTML = displayedWord;
-}
-
-// Handle game-over scenarios
-function handleGameOver() {
-  if (remainingGuesses === 0) {
-    document.getElementById("message").textContent = "You Lost!";
-    displayMissedLetters();
-    isGameOver = true;
-  }
-}
-
-// Update the gallows image
-function updateGallows() {
-  let gallowsImage = `images/Gallows${6 - remainingGuesses}.png`;
-  document.getElementById("gallows-image").src = gallowsImage;
-}
-
-// Guess button functionality
-document.getElementById("guess-button").addEventListener("click", function() {
-  if (!isGameOver) {
-    handleGuess();
-  }
-});
-
-// Allow Enter key to submit the guess
-document.getElementById("guess-input").addEventListener("keydown", function(event) {
-  if (event.key === "Enter" && !isGameOver) {
-    event.preventDefault();
-    handleGuess();
-  }
-});
-
-function handleGuess() {
-  let guess = document.getElementById("guess-input").value.toLowerCase();
-
-  if (guess && !guessedLetters.includes(guess)) {
-    guessedLetters.push(guess);
-    if (word.includes(guess)) {
-      correctGuesses.push(guess);
-    } else {
-      incorrectGuesses.push(guess);
-      remainingGuesses--;
-      updateGallows();
-    }
-
-    document.getElementById("guess-input").value = "";
-    updateWordDisplay();
-    document.getElementById("guessed-letters").textContent = `Guessed Letters (Incorrect): ${incorrectGuesses.join(", ")}`;
-    updateRemainingGuesses();
-
-    if (remainingGuesses === 0) {
-      document.getElementById("message").textContent = "You Lost!";
-      displayMissedLetters();
-      isGameOver = true;
-    }
-  }
-
-  document.getElementById("guess-input").focus();
-}
-
-function updateRemainingGuesses() {
-  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
-}
-
-function displayMissedLetters() {
-  let displayedWord = word.split("").map(letter => {
-    return correctGuesses.includes(letter) ? letter : `<span style="color: red;">${letter}</span>`;
-  }).join(" ");
-
-  document.getElementById("word-to-guess").innerHTML = displayedWord;
-}
-
-// Reset button functionality
-document.getElementById("reset-button").addEventListener("click", resetGame);
-
-function resetGame() {
-  word = words[Math.floor(Math.random() * words.length)];
-  guessedLetters = [];
-  incorrectGuesses = [];
-  correctGuesses = [];
-  remainingGuesses = 6;
-  isGameOver = false;
-
-  updateWordDisplay();
-  document.getElementById("gallows-image").src = "images/Gallows0.png";
-  updateRemainingGuesses();
-  document.getElementById("guessed-letters").textContent = "Guessed Letters (Incorrect): ";
-  document.getElementById("guess-input").value = "";
-  document.getElementById("message").textContent = "";
-  document.getElementById("guess-input").focus();
-}
-
+// Initialize the game
 document.addEventListener("DOMContentLoaded", function () {
   const difficultyButtons = document.querySelectorAll(".difficulty-button");
+  const guessInput = document.getElementById("guess-input");
+  const guessButton = document.getElementById("guess-button");
+
+  // Select difficulty
   function selectDifficulty(difficulty) {
     difficultyButtons.forEach(button => button.classList.remove("selected"));
     document.getElementById(`${difficulty}-button`).classList.add("selected");
@@ -138,5 +32,100 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Default difficulty
   selectDifficulty("normal");
+
+  // Handle guesses
+  guessButton.addEventListener("click", handleGuess);
+  guessInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") handleGuess();
+  });
+
+  startGame();
 });
+
+// Start a new game
+function startGame() {
+  chosenWord = wordList[Math.floor(Math.random() * wordList.length)];
+  correctGuesses = Array(chosenWord.length).fill("_");
+  guessedLetters = [];
+  incorrectGuesses = [];
+  isGameOver = false;
+
+  updateWordDisplay();
+  updateRemainingGuesses();
+  document.getElementById("message").textContent = "";
+  document.getElementById("guess-input").value = "";
+  document.getElementById("gallows-image").src = "images/Gallows0.png";
+}
+
+// Set difficulty
+function setDifficulty(difficulty) {
+  remainingGuesses = difficultyLevels[difficulty];
+  startGame();
+}
+
+// Update the displayed word
+function updateWordDisplay() {
+  document.getElementById("word-display").textContent = correctGuesses.join(" ");
+}
+
+// Update remaining guesses
+function updateRemainingGuesses() {
+  document.getElementById("remaining-guesses").textContent = remainingGuesses;
+}
+
+// Handle a guess
+function handleGuess() {
+  if (isGameOver) return;
+
+  const guessInput = document.getElementById("guess-input");
+  const guess = guessInput.value.toLowerCase();
+  guessInput.value = "";
+
+  if (!guess || guessedLetters.includes(guess)) {
+    document.getElementById("message").textContent = "Invalid or repeated guess!";
+    return;
+  }
+
+  guessedLetters.push(guess);
+
+  if (chosenWord.includes(guess)) {
+    chosenWord.split("").forEach((letter, index) => {
+      if (letter === guess) correctGuesses[index] = letter;
+    });
+    updateWordDisplay();
+    checkWin();
+  } else {
+    incorrectGuesses.push(guess);
+    remainingGuesses--;
+    updateRemainingGuesses();
+    updateGallowsImage();
+    checkLoss();
+  }
+
+  document.getElementById("guessed-letters").textContent =
+    "Guessed Letters (Incorrect): " + incorrectGuesses.join(", ");
+}
+
+// Update gallows image
+function updateGallowsImage() {
+  const incorrectCount = incorrectGuesses.length;
+  document.getElementById("gallows-image").src = `images/Gallows${incorrectCount}.png`;
+}
+
+// Check if the player wins
+function checkWin() {
+  if (!correctGuesses.includes("_")) {
+    document.getElementById("message").textContent = "You win!";
+    isGameOver = true;
+  }
+}
+
+// Check if the player loses
+function checkLoss() {
+  if (remainingGuesses <= 0) {
+    document.getElementById("message").textContent = `You lose! The word was: ${chosenWord}`;
+    isGameOver = true;
+  }
+}
