@@ -44,4 +44,11 @@ export class Hangman {
   getHint() {
     return this.hints[this.word] || "No hint available.";
   }
+
+  resetGame(word, maxGuesses) {
+    this.word = word.toLowerCase();
+    this.maxGuesses = maxGuesses;
+    this.guessedLetters = [];
+    this.remainingGuesses = maxGuesses;
+  }
 }
