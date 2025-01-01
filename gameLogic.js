@@ -1,54 +1,41 @@
-export class Hangman {
-  constructor(word, maxGuesses) {
-    this.word = word.toLowerCase();
-    this.maxGuesses = maxGuesses;
-    this.guessedLetters = [];
-    this.remainingGuesses = maxGuesses;
-    this.hints = {
-      hangman: "A classic word-guessing game.",
-      javascript: "A popular programming language.",
-      programming: "The process of creating software.",
-      web: "A connected system of networks.",
-      game: "An activity for entertainment."
-    };
+// Guess button functionality
+document.getElementById("guess-button").addEventListener("click", function() {
+  handleGuess();
+});
+
+// Allow Enter key to submit the guess
+document.getElementById("guess-input").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Prevent form submission (if in a form)
+    handleGuess();
   }
+});
 
-  guess(letter) {
-    if (!letter.match(/^[a-z]$/)) {
-      return { success: false, message: "Please enter a single alphabet letter." };
-    }
-    if (this.guessedLetters.includes(letter)) {
-      return { success: false, message: "You already guessed that letter!" };
-    }
-
-    this.guessedLetters.push(letter);
-
-    if (this.word.includes(letter)) {
-      return { success: true, correct: true };
+// Function to handle the guess logic
+function handleGuess() {
+  let guess = document.getElementById("guess-input").value.toLowerCase();
+  if (guess && !guessedLetters.includes(guess)) {
+    guessedLetters.push(guess);
+    if (word.includes(guess)) {
+      // Correct guess
     } else {
-      this.remainingGuesses--;
-      return { success: true, correct: false };
+      remainingGuesses--;
+      alert(`Wrong guess! Remaining guesses: ${remainingGuesses}`);
+      updateGallows();  // Update the image based on wrong guesses
+    }
+
+    // Clear the input field
+    document.getElementById("guess-input").value = "";
+
+    // Update the word display
+    updateWordDisplay();
+
+    // Check if player has lost
+    if (remainingGuesses === 0) {
+      alert("You lost! The word was: " + word);
     }
   }
 
-  isGameOver() {
-    return this.remainingGuesses <= 0 || !this.getDisplayedWord().includes("_");
-  }
-
-  getDisplayedWord() {
-    return this.word.split("").map(letter => 
-      this.guessedLetters.includes(letter) ? letter : "_"
-    ).join(" ");
-  }
-
-  getHint() {
-    return this.hints[this.word] || "No hint available.";
-  }
-
-  resetGame(word, maxGuesses) {
-    this.word = word.toLowerCase();
-    this.maxGuesses = maxGuesses;
-    this.guessedLetters = [];
-    this.remainingGuesses = maxGuesses;
-  }
+  // Set focus back to the "Enter a letter" textbox after guess
+  document.getElementById("guess-input").focus();
 }
