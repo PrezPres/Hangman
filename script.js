@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const difficultyButtons = document.querySelectorAll(".difficulty-button");
   const guessInput = document.getElementById("guess-input");
   const guessButton = document.getElementById("guess-button");
+  const resetButton = document.getElementById("reset-button");
 
   // Select difficulty
   function selectDifficulty(difficulty) {
@@ -41,6 +42,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.key === "Enter") handleGuess();
   });
 
+  // Handle reset game
+  resetButton.addEventListener("click", function () {
+    resetGame();
+  });
+
   startGame();
 });
 
@@ -59,10 +65,16 @@ function startGame() {
   document.getElementById("gallows-image").src = "images/Gallows0.png";
 }
 
+// Reset the game to default settings
+function resetGame() {
+  selectDifficulty("normal"); // Reset to normal difficulty
+  startGame(); // Start a new game
+}
+
 // Set difficulty
 function setDifficulty(difficulty) {
   remainingGuesses = difficultyLevels[difficulty];
-  startGame();
+  updateRemainingGuesses();
 }
 
 // Update the displayed word
