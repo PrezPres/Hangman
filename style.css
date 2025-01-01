@@ -39,22 +39,6 @@ button {
   margin-top: 20px;
 }
 
-#incorrect-guesses-title {
-  font-size: 18px;
-  margin-top: 20px;
-}
-
-#incorrect-guesses {
-  font-size: 20px;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-select {
-  font-size: 18px;
-  padding: 5px;
-}
-
 .difficulty-button {
   padding: 10px 20px;
   border: 2px solid #ccc;
