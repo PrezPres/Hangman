@@ -7,7 +7,13 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Preston's Hangman Game2</h1>
+  <h1>Preston's Hangman Game</h1>
+  
+  <div id="difficulty-container">
+    <button id="difficulty-easy">Easy</button>
+    <button id="difficulty-normal">Normal</button>
+    <button id="difficulty-hard">Hard</button>
+  </div>
 
   <div id="game-container">
     <div id="gallows-container">
@@ -18,25 +24,17 @@
 
     <div id="message"></div>
 
-    <input type="text" id="guess-input" maxlength="1" placeholder="Enter a letter">
+    <input type="text" id="guess-input" maxlength="1" placeholder="Enter a letter" style="width: 110px;">
     <button id="guess-button">Guess</button>
 
     <div id="remaining-guesses">Remaining Guesses: 6</div>
     <div id="guessed-letters">Guessed Letters (Incorrect): </div>
 
-    <div id="difficulty-container">
-      <button id="difficulty-easy">Easy</button>
-      <button id="difficulty-normal">Normal</button>
-      <button id="difficulty-hard">Hard</button>
-    </div>
-
-
     <button id="reset-button" style="margin-top: 10px">Reset Game</button>
   </div>
-
+  
   <script src="script.js"></script>
 </body>
 </html>
-
 
 <!-- Just a Comment --> 
