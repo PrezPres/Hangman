@@ -28,6 +28,7 @@ body {
   font-size: 1.2em;
   padding: 5px;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 #guess-button {
