@@ -16,21 +16,28 @@ const difficultyLevels = {
 // Fetch a random word from an API
 function fetchRandomWord() {
   fetch('https://random-word-api.herokuapp.com/word?number=1')  // Random word API
-    .then(response => response.json())
+    .then(response => {
+      console.log("Response Status:", response.status);  // Log the status of the response
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
     .then(data => {
-      console.log(data);  // Log the response data for debugging
+      console.log("API Response Data:", data);  // Log the data received from the API
       if (data && data.length > 0) {
         word = data[0].toLowerCase();  // Set the word to the random word from API
         startGame();
       } else {
-        alert('Failed to fetch a random word. Please try again.');
+        alert('No word returned from the API. Please try again.');
       }
     })
     .catch(error => {
       console.error('Error fetching random word:', error);
-      alert('There was an error fetching a random word.');
+      alert('There was an error fetching a random word. Please check the console for more details.');
     });
 }
+
 
 
 // Set difficulty based on user selection
