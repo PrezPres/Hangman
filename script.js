@@ -1,4 +1,4 @@
-// Existing setup for game variables
+// Game variables
 let words = ["hangman", "javascript", "programming", "web", "game"];
 let word = words[Math.floor(Math.random() * words.length)];
 let guessedLetters = [];
@@ -34,7 +34,7 @@ function updateWordDisplay() {
 
 // Update the gallows (stick figure) image based on wrong guesses
 function updateGallows() {
-  let gallowsImage = bodyParts[6 - remainingGuesses]; // Get the next part of the body
+  let gallowsImage = `images/Gallows${6 - remainingGuesses}.png`; // Use the current remaining guesses to update the image
   document.getElementById("gallows-image").src = gallowsImage;
 }
 
@@ -54,13 +54,16 @@ document.getElementById("guess-input").addEventListener("keydown", function(even
 // Function to handle the guess logic
 function handleGuess() {
   let guess = document.getElementById("guess-input").value.toLowerCase();
+  
+  // Check if the guess is valid
   if (guess && !guessedLetters.includes(guess)) {
     guessedLetters.push(guess);
     if (word.includes(guess)) {
-      // Correct guess
+      // Correct guess, do nothing more here
     } else {
+      // Incorrect guess, reduce remaining guesses and update gallows
       remainingGuesses--;
-      updateGallows();  // Update the image based on wrong guesses
+      updateGallows();
     }
 
     // Clear the input field
