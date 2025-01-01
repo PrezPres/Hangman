@@ -1,22 +1,13 @@
-// List of words for the game
+// Existing setup for game variables
 let words = ["hangman", "javascript", "programming", "web", "game"];
-
-// Game variables
 let word = words[Math.floor(Math.random() * words.length)];
 let guessedLetters = [];
-let incorrectGuesses = [];
-let remainingGuesses = 6; // Default easy difficulty
+let remainingGuesses = 6;
+let unguessedLetters = word.split('').filter(letter => !guessedLetters.includes(letter));
 
-// Difficulty levels
-const difficultyLevels = {
-  easy: 6,
-  medium: 5,
-  hard: 4
-};
-
-// Body part images for the gallows (wrong guesses)
+// Array of images to show as the body parts (in order)
 let bodyParts = [
-  "images/Gallows0.png",   // Initial gallows (no body parts)
+  "images/Gallows1.png",   // Initial gallows (no body parts)
   "images/Head1.png",      // Head
   "images/Body1.png",      // Body
   "images/Left_Arm2.png",  // Left Arm
@@ -25,93 +16,25 @@ let bodyParts = [
   "images/Right_Leg2.png"  // Right Leg
 ];
 
-// Function to update the word display
+// Update the word display based on guesses
 function updateWordDisplay() {
   let displayedWord = word.split("").map(letter => {
     return guessedLetters.includes(letter) ? letter : "_";
   }).join(" ");
+
   document.getElementById("word-to-guess").textContent = displayedWord;
 
   // Check if the player has won
   if (!displayedWord.includes("_")) {
-    alert("You won!");
+    document.getElementById("message").textContent = "You won!";
   }
 }
 
-// Function to update the gallows image based on wrong guesses
+// Update the gallows (stick figure) image based on wrong guesses
 function updateGallows() {
   let gallowsImage = bodyParts[6 - remainingGuesses]; // Get the next part of the body
   document.getElementById("gallows-image").src = gallowsImage;
 }
-
-// Function to update the incorrect guesses display
-function updateIncorrectGuesses() {
-  document.getElementById("incorrect-guesses").textContent = incorrectGuesses.join(", ");
-}
-
-// Handle the guess logic
-function handleGuess() {
-  let guess = document.getElementById("guess-input").value.toLowerCase();
-  if (guess && !guessedLetters.includes(guess) && !incorrectGuesses.includes(guess)) {
-    guessedLetters.push(guess);
-    if (word.includes(guess)) {
-      // Correct guess, nothing extra needed
-    } else {
-      remainingGuesses--;
-      incorrectGuesses.push(guess);
-      updateGallows();  // Update the image based on wrong guesses
-      updateIncorrectGuesses(); // Update incorrect guesses list
-    }
-
-    // Clear the input field
-    document.getElementById("guess-input").value = "";
-
-    // Update the word display
-    updateWordDisplay();
-
-    // Check if player has lost
-    if (remainingGuesses === 0) {
-      alert("You lost! The word was: " + word);
-    }
-  }
-
-  // Set focus back to the "Enter a letter" textbox after guess
-  document.getElementById("guess-input").focus();
-}
-
-// Reset button functionality
-document.getElementById("reset-button").addEventListener("click", function() {
-  resetGame();
-});
-
-// Function to reset the game
-function resetGame() {
-  // Reset game variables
-  word = words[Math.floor(Math.random() * words.length)];
-  guessedLetters = [];
-  incorrectGuesses = [];
-  remainingGuesses = difficultyLevels[document.getElementById("difficulty").value] || 6;
-
-  // Reset the word display
-  updateWordDisplay();
-
-  // Reset the gallows image
-  document.getElementById("gallows-image").src = "images/Gallows0.png";
-
-  // Reset the incorrect guesses display
-  updateIncorrectGuesses();
-
-  // Clear the input field
-  document.getElementById("guess-input").value = "";
-
-  // Set focus back to the "Enter a letter" textbox after reset
-  document.getElementById("guess-input").focus();
-}
-
-// Hint button functionality
-document.getElementById("hint-button").addEventListener("click", function() {
-  alert("The first letter of the word is: " + word.charAt(0).toUpperCase());
-});
 
 // Guess button functionality
 document.getElementById("guess-button").addEventListener("click", function() {
@@ -126,5 +49,70 @@ document.getElementById("guess-input").addEventListener("keydown", function(even
   }
 });
 
-// Focus management: Set focus back to the "Enter a letter" textbox after a guess or reset
-document.getElementById("guess-input").focus();
+// Function to handle the guess logic
+function handleGuess() {
+  let guess = document.getElementById("guess-input").value.toLowerCase();
+  if (guess && !guessedLetters.includes(guess)) {
+    guessedLetters.push(guess);
+    if (word.includes(guess)) {
+      // Correct guess
+    } else {
+      remainingGuesses--;
+      updateGallows();  // Update the image based on wrong guesses
+    }
+
+    // Clear the input field
+    document.getElementById("guess-input").value = "";
+
+    // Update the word display
+    updateWordDisplay();
+
+    // Check if player has lost
+    if (remainingGuesses === 0) {
+      document.getElementById("message").textContent = "You Lost!";
+      displayUnguessedLetters();
+    }
+  }
+
+  // Set focus back to the "Enter a letter" textbox after guess
+  document.getElementById("guess-input").focus();
+}
+
+// Function to display unguessed letters in red
+function displayUnguessedLetters() {
+  let unguessed = word.split("").filter(letter => !guessedLetters.includes(letter)).join("");
+  document.getElementById("unguessed-letters").innerHTML = `Unguessed Letters: <span style="color: red;">${unguessed}</span>`;
+}
+
+// Reset button functionality
+document.getElementById("reset-button").addEventListener("click", function() {
+  resetGame();
+});
+
+// Function to reset the game
+function resetGame() {
+  // Reset game variables
+  word = words[Math.floor(Math.random() * words.length)];
+  guessedLetters = [];
+  remainingGuesses = 6;
+
+  // Reset the word display
+  updateWordDisplay();
+
+  // Reset the gallows image
+  document.getElementById("gallows-image").src = "images/Gallows0.png";
+
+  // Reset the remaining guesses and guessed letters display
+  document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
+  document.getElementById("guessed-letters").textContent = "Guessed Letters: ";
+
+  // Clear the input field
+  document.getElementById("guess-input").value = "";
+
+  // Reset the message and unguessed letters display
+  document.getElementById("message").textContent = "";
+  document.getElementById("unguessed-letters").textContent = "";
+
+  // Set focus back to the "Enter a letter" textbox after reset
+  document.getElementById("guess-input").focus();
+}
