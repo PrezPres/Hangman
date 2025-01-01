@@ -4,7 +4,7 @@ let word = words[Math.floor(Math.random() * words.length)];
 let guessedLetters = [];
 let incorrectGuesses = []; // Track incorrect guesses
 let remainingGuesses = 6; // Default to normal difficulty
-let unguessedLetters = word.split('').filter(letter => !guessedLetters.includes(letter));
+let isGameOver = false; // Flag to check if the game is over
 
 // Difficulty levels
 const difficultyLevels = {
@@ -28,6 +28,7 @@ function updateWordDisplay() {
   // Check if player has won
   if (!displayedWord.includes("_")) {
     document.getElementById("message").textContent = "You won!";
+    isGameOver = true; // Stop the game
   }
 
   // Display missed letters in red
@@ -49,12 +50,14 @@ function updateGallows() {
 
 // Guess button functionality
 document.getElementById("guess-button").addEventListener("click", function() {
-  handleGuess();
+  if (!isGameOver) {
+    handleGuess();
+  }
 });
 
 // Allow Enter key to submit the guess
 document.getElementById("guess-input").addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
+  if (event.key === "Enter" && !isGameOver) {
     event.preventDefault(); // Prevent form submission (if in a form)
     handleGuess();
   }
@@ -63,7 +66,7 @@ document.getElementById("guess-input").addEventListener("keydown", function(even
 // Function to handle the guess logic
 function handleGuess() {
   let guess = document.getElementById("guess-input").value.toLowerCase();
-  
+
   // Check if the guess is valid
   if (guess && !guessedLetters.includes(guess) && !incorrectGuesses.includes(guess)) {
     guessedLetters.push(guess);
@@ -92,6 +95,7 @@ function handleGuess() {
     if (remainingGuesses === 0) {
       document.getElementById("message").textContent = "You Lost!";
       displayMissedLetters();
+      isGameOver = true; // Stop the game
     }
   }
 
@@ -102,6 +106,26 @@ function handleGuess() {
 // Update the remaining guesses text
 function updateRemainingGuesses() {
   document.getElementById("remaining-guesses").textContent = `Remaining Guesses: ${remainingGuesses}`;
+}
+
+// Display missed letters (incorrect guesses) in red after loss
+function displayMissedLetters() {
+  let displayedWord = word.split("").map(letter => {
+    return guessedLetters.includes(letter) ? letter : "_";
+  }).join(" ");
+
+  // Replace underscores with missed letters in red
+  displayedWord = displayedWord.split(" ").map((letter, index) => {
+    if (letter === "_" && incorrectGuesses.includes(word[index])) {
+      return `<span style="color: red;">${word[index]}</span>`;
+    }
+    return letter;
+  }).join(" ");
+
+  document.getElementById("word-to-guess").innerHTML = displayedWord;
+
+  // Update the "Missed letters" to display incorrect guesses in red
+  document.getElementById("missed-letters").textContent = `Missed Letters: ${incorrectGuesses.join(", ")}`;
 }
 
 // Reset button functionality
@@ -116,6 +140,7 @@ function resetGame() {
   guessedLetters = [];
   incorrectGuesses = [];
   remainingGuesses = 6; // Default to normal difficulty
+  isGameOver = false; // Reset game over flag
 
   // Reset the word display
   updateWordDisplay();
@@ -126,6 +151,9 @@ function resetGame() {
   // Reset the remaining guesses and guessed letters display
   updateRemainingGuesses();
   document.getElementById("guessed-letters").textContent = "Guessed Letters: ";
+
+  // Reset the missed letters display
+  document.getElementById("missed-letters").textContent = "Missed Letters: ";
 
   // Clear the input field
   document.getElementById("guess-input").value = "";
