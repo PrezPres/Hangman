@@ -18,6 +18,7 @@ function fetchRandomWord() {
   fetch('https://random-word-api.herokuapp.com/word?number=1')  // Random word API
     .then(response => response.json())
     .then(data => {
+      console.log(data);  // Log the response data for debugging
       if (data && data.length > 0) {
         word = data[0].toLowerCase();  // Set the word to the random word from API
         startGame();
@@ -30,6 +31,7 @@ function fetchRandomWord() {
       alert('There was an error fetching a random word.');
     });
 }
+
 
 // Set difficulty based on user selection
 function setDifficulty(difficulty) {
