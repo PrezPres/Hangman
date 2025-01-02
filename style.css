@@ -26,12 +26,12 @@ h1 {
   font-weight: bold;
 }
 
-#message.win {
-  color: green;
+.win {
+    color: green;
 }
 
-#message.lose {
-  color: red;
+.lose {
+    color: red;
 }
 
 #word-to-guess {
