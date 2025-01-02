@@ -114,7 +114,9 @@ function handleGuess() {
     updateRemainingGuesses();
 
     if (remainingGuesses === 0) {
-      document.getElementById("message").textContent = "You Lost!";
+      document.getElementById("message").textContent = "You Lost! :(";
+      document.getElementById("message").classList.add("lose");
+      document.getElementById("message").classList.remove("win");
       displayMissedLetters();
       isGameOver = true;
     }
