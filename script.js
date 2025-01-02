@@ -141,22 +141,32 @@ function displayMissedLetters() {
 document.getElementById("reset-button").addEventListener("click", resetGame);
 
 function resetGame() {
-    word = words[Math.floor(Math.random() * words.length)];
-    guessedLetters = [];
-    incorrectGuesses = [];
-    correctGuesses = [];
-    remainingGuesses = difficultyLevels.normal; // Reset to normal difficulty
-    isGameOver = false;
+  // Reset the game variables
+  word = words[Math.floor(Math.random() * words.length)];
+  guessedLetters = [];
+  incorrectGuesses = [];
+  correctGuesses = [];
+  remainingGuesses = difficultyLevels.normal; // Reset to normal difficulty
+  isGameOver = false;
 
-    updateWordDisplay();
-    document.getElementById("gallows-image").src = "images/Gallows0.png";
-    updateRemainingGuesses();
-    document.getElementById("guessed-letters").textContent = "Guessed Letters (Incorrect): ";
-    document.getElementById("guess-input").value = "";
-    document.getElementById("message").textContent = ""; // Clear message text
-    document.getElementById("message").classList.remove("win", "lose"); // Remove both classes
-    document.getElementById("guess-input").focus();
+  // Update the game display
+  updateWordDisplay();
+  document.getElementById("gallows-image").src = "images/Gallows0.png";
+  updateRemainingGuesses();
+  document.getElementById("guessed-letters").textContent = "Guessed Letters (Incorrect): ";
+  document.getElementById("guess-input").value = "";
+  document.getElementById("message").textContent = "";
+  document.getElementById("message").classList.remove("win", "lose");
+
+  // Reset difficulty buttons to "normal"
+  const difficultyButtons = document.querySelectorAll(".difficulty-button");
+  difficultyButtons.forEach(button => button.classList.remove("selected"));
+  document.getElementById("normal-button").classList.add("selected");
+
+  // Refocus the input field
+  document.getElementById("guess-input").focus();
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
