@@ -54,7 +54,9 @@ function updateWordDisplay() {
   }).join(" ");
 
   if (!displayedWord.includes("_")) {
-    document.getElementById("message").textContent = "You won!";
+    document.getElementById("message").textContent = "You won! :)";
+    document.getElementById("message").classList.add("win");
+    document.getElementById("message").classList.remove("lose");
     isGameOver = true;
   }
 
@@ -64,7 +66,9 @@ function updateWordDisplay() {
 // Handle game-over scenarios
 function handleGameOver() {
   if (remainingGuesses === 0) {
-    document.getElementById("message").textContent = "You Lost!";
+    document.getElementById("message").textContent = "You Lost! :(";
+    document.getElementById("message").classList.add("lose");
+    document.getElementById("message").classList.remove("win");
     displayMissedLetters();
     isGameOver = true;
   }
@@ -139,7 +143,7 @@ function resetGame() {
   guessedLetters = [];
   incorrectGuesses = [];
   correctGuesses = [];
-  remainingGuesses = 6;
+  remainingGuesses = difficultyLevels.normal; // Reset to normal difficulty
   isGameOver = false;
 
   updateWordDisplay();
@@ -148,6 +152,7 @@ function resetGame() {
   document.getElementById("guessed-letters").textContent = "Guessed Letters (Incorrect): ";
   document.getElementById("guess-input").value = "";
   document.getElementById("message").textContent = "";
+  document.getElementById("message").classList.remove("win", "lose");
   document.getElementById("guess-input").focus();
 }
 
